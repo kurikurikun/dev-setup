@@ -16,7 +16,14 @@ REPOS=(
   "day-offload:day-offload"
   "callnotes:callnotes"
   "movement-website:movement-website"
+  "filminginjapan:filminginjapan"
+  "tesutemo:tesutemo"
+  "crew-book:crew-book"
+  "Minpaku-register:minpaku-register"
 )
+# Where these used to live (iCloud-synced Documents). Only used to copy over
+# .env.local, which is never in git, so a fresh clone can still run locally.
+OLD="$HOME/Documents/claude"
 
 command -v git >/dev/null || { echo "git is missing. Run:  xcode-select --install   then run this again." >&2; exit 1; }
 command -v jq  >/dev/null || { echo "jq is missing (it ships with macOS 15+). Run:  brew install jq   then run this again." >&2; exit 1; }
@@ -29,6 +36,10 @@ for entry in "${REPOS[@]}"; do
     echo "  ✓ ${entry##*:} (already here)"
   else
     git clone -q "https://github.com/kurikurikun/$repo.git" "$dir" && echo "  + ${entry##*:} cloned"
+  fi
+  old="$OLD/${entry##*:}/.env.local"
+  if [ -f "$old" ] && [ ! -f "$dir/.env.local" ]; then
+    cp "$old" "$dir/.env.local" && echo "    + .env.local copied from $OLD"
   fi
 done
 
@@ -54,3 +65,4 @@ fi
 echo
 echo "Done. Start Claude Code sessions inside the app's folder, e.g. ~/Developer/callnotes,"
 echo "and it pulls the latest from GitHub first. Commit + push when you finish on a Mac."
+echo "The old copies in $OLD are not touched; delete them once you're happy."
