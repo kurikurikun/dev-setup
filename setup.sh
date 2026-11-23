@@ -20,6 +20,7 @@ REPOS=(
   "tesutemo:tesutemo"
   "crew-book:crew-book"
   "Minpaku-register:minpaku-register"
+  "looplapse:looplapse"
 )
 # Where these used to live (iCloud-synced Documents). Only used to copy over
 # .env.local, which is never in git, so a fresh clone can still run locally.
